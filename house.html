@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>House</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="house.css">
+	<link rel="icon" type="image/png" href="favicon.png"> <!-- favicon for tab-->
+</head>
+<body>
+	<!--back button -->
+	<div id="buttonback"><a href="game2.html">Finished Search</a></div>
+<!--theme tune-->
+	<audio controls autoplay loop hidden id="music">
+	<source src="theme.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+	</audio>
+
+	
+<!--buttons for music-->
+	<img src="play.png" style = "width:25px; height:25px; position:fixed; right:40px; bottom:10px;" onclick="play()('theme.mp3')">
+	<img src="pause.png" style = "width:25px; height:21px; position:fixed; right:10px; bottom:11px;" onclick="pause()('theme.mp3')">
+
+	
+	<div class="btn-group">
+	</br>
+	<button class ="button"><a href="livingroom.html" style="text-decoration:none;">Search the livingroom</button>
+	</br>
+	<button class ="button"><a href="kitchen.html" style="text-decoration:none;">Search the kitchen</button>
+	</br>
+	<button class ="button"><a href="bedroom.html" style="text-decoration:none;">Search the bedroom</button></div>
+	 
+<script>
+//FUNCTION FOR PLAYING THEME TUNE
+var myMusic= document.getElementById("music");
+function play() {
+myMusic.play();
+}
+
+
+</script>
+ 
+ 
