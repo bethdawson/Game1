@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Casino search</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="casino-search.css">
+	<link rel="icon" type="image/png" href="favicon.png"> <!-- favicon for tab-->
+</head>
+<body>
+
+	<!--back button -->
+	<div id="buttonboxback"><a href="game2.html">Finished Search</a></div>
+	
+	<!--sounds for clues, positive and negative -->
+	<audio controls autoplay hidden id="correct"><source src="found.mp3" type="audio/mpeg"></audio>
+	<audio controls autoplay hidden id="wrong"><source src="wrong.mp3" type="audio/mpeg"></audio>
+
+<!-- Rota Clue and Information -->
+	<div class="rota" onclick="rotaFunction(), playPositive()"> <img src="diary.png" style="position:fixed; right:450px; top:235px; width:35px; height:35px; border:none;transform: rotate(100deg);">
+	<span class="rotatext" id="myrota">ITEM FOUND: WORK ROTA </br><br> FRIDAY 28: Chloe, Alexia, Rico<br>SATURDAY 29: Matt, Phil, Chloe<br>SUNDAY 30: Alexia, Rico, Matt</span></div>
+	
+
+<!-- Receipt Clue and Information -->
+	<div class="receipt" onclick="receiptFunction(), playPositive()"> <img src="bill.png" style="position:fixed; left:550px; bottom:180px; width:35px; height:35px; border:none;">
+	<span class="receipttext" id="myreceipt">ITEM FOUND: CASINO RECEIPT</br>A reciept dated Saturday 29th July 10:52pm, for a card belonging to O.Holland</span></div>	
+		
+<!-- Wallet Clue and Information -->
+	<div class="wallet" onclick="walletFunction(), playNegative()"> <img src="wallet.png" style="position:fixed; right:100px; bottom:130px; width:35px; height:35px; border:none;">
+	<span class="wallettext" id="mywallet">ITEM FOUND: WALLET</br>You've found someones wallet, best to hand it in at the desk!</span></div>	
+		
+</body>
+
+<script>
+// FUNCTIONS FOR CLUE POPUPS
+function rotaFunction() {
+  var rota = document.getElementById("myrota");
+  rota.classList.toggle("show");
+}
+function receiptFunction() {
+  var receipt = document.getElementById("myreceipt");
+  receipt.classList.toggle("show");
+}
+function walletFunction() {
+  var wallet = document.getElementById("mywallet");
+  wallet.classList.toggle("show");
+}
+
+
+//FUNCTION TO PLAY SOUND EFFECTS
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+
+</script>
