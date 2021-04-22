@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Livingroom</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="livingroom.css">
+	<link rel="icon" type="image/png" href="favicon.png"> <!-- favicon for tab-->
+
+</head>
+<body>
+
+	<!--BACK BUTTON-->
+	<div id="buttonboxback"><a href="house.html">Back to House</a></div>
+	
+	<!--sounds for clues, positive and negative -->
+	<audio controls autoplay hidden id="correct"><source src="found.mp3" type="audio/mpeg"></audio>
+	<audio controls autoplay hidden id="wrong"><source src="wrong.mp3" type="audio/mpeg"></audio>
+	
+	<!-- Frame Clue and Information -->
+	<div class="frame" onclick="frameFunction(), playPositive()"> <img src="frame.png" style="position:fixed; left:40px; bottom:155px; width:70px; height:80px; border:none;">
+	<span class="frametext" id="myFrame">ITEM FOUND: PHOTO FRAME </br> A lovely family photo. Nicholas is smartly dressed and Juliet is wearing a beautiful necklace.</span></div>
+		
+	<!-- Car Keys clue and Information -->
+	<div class="keys" onclick="keysFunction(), playNegative()"> <img src="keys.png" style="position:fixed; left:250px; bottom:130px; width:40px; height:50px; border:none;">
+	<span class="keystext" id="myKeys">ITEM FOUND: CAR KEYS </br> Car keys for a BMW, how fancy!</span></div>
+		
+	<!-- Handbag clues and Information -->
+	<div class="handbag" onclick="bagFunction(), playNegative()"> <img src="handbag.png" style="position:fixed; right:130px; bottom:30px; width:90px; height:100px; border:none;">
+	<span class="bagtext" id="myHandbag">ITEM FOUND: HANDBAG </br> Juliet's handbag - best not to go through a lady's bag!</span></div>
+		
+</body>
+
+<script>
+//FUNCTIONS FOR POPUP CLUES
+function frameFunction() {
+  var frame = document.getElementById("myFrame");
+  frame.classList.toggle("show");
+}
+
+function keysFunction() {
+  var keys = document.getElementById("myKeys");
+  keys.classList.toggle("show");
+}
+
+function bagFunction() {
+  var handbag = document.getElementById("myHandbag");
+  handbag.classList.toggle("show");
+}
+//FUNCTION TO PLAY SOUND EFFECTS
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+
+</script>
