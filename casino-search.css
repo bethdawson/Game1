@@ -1,0 +1,150 @@
+body {
+	background-repeat: no-repeat;
+    background-size: 100%;
+	background-image: url("casino1.jpg");
+	min-height: 100%;
+
+}
+
+#buttonboxback {
+    width: 110px;
+    height: 40px;
+    background-color: #42a7f5;
+    position: relative;
+    margin-left: 40px;
+    border-radius: 5px;
+}
+
+#buttonboxback:before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: -17px;
+    border-style: solid;
+    border-width: 20px 20px 20px 0;
+    border-color: transparent #42a7f5 transparent transparent;
+}
+
+#buttonboxback > a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font:  14px/40px Sans-Serif;
+}
+
+#buttonboxback:hover {
+    background-color: lightblue;
+}
+
+#buttonboxback:hover:before {
+    border-right-color: lightblue;
+}
+
+
+/* Popup container */
+.rota {
+  position: fixed;
+  display: inline-block;
+  bottom: 200px;
+  right: 480px;
+  cursor: url(glass.png), auto;
+
+}
+
+/* The actual popup (appears on top) */
+.rota .rotatext {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 18px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.rota .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Popup container */
+.receipt {
+  position: fixed;
+  display: inline-block;
+  bottom: 200px;
+  left: 480px;
+  cursor: url(glass.png), auto;
+
+}
+
+/* The actual popup (appears on top) */
+.receipt .receipttext {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 18px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.receipt .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Popup container */
+.wallet {
+  position: fixed;
+  display: inline-block;
+  bottom: 200px;
+  right: 200px;
+  cursor: url(glass.png), auto;
+
+}
+
+/* The actual popup (appears on top) */
+.wallet .wallettext {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 18px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.wallet .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
