@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Reception</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="reception.css">
+	<link rel="icon" type="image/png" href="favicon.png"> <!-- favicon for tab-->
+</head>
+<body>
+
+<!--back button -->
+	<div id="buttonboxback"><a href="game2.html">Finished Search</a></div>
+	
+	<!--sounds for clues, positive and negative -->
+	<audio controls autoplay hidden id="correct"><source src="found.mp3" type="audio/mpeg"></audio>
+	<audio controls autoplay hidden id="wrong"><source src="wrong.mp3" type="audio/mpeg"></audio>
+
+<!-- poster Clue and Information -->
+	<div class="poster" onclick="posterFunction(), playPositive()"> <img src="poster.jpg" style="position:fixed; right:300px; top:180px; width:60px; height:70px; border:none;">
+	<span class="postertext" id="myposter">ITEM FOUND: POSTER </br><br> LATE NIGHT SWIMMING LESSONS<br>EVERY MONDAY AND THURSDAY<br>8 - 10PM</span></div>
+	
+	<!-- suitcase Clue and Information -->
+	<div class="suitcase" onclick="suitcaseFunction(), playNegative()"> <img src="luggage.png" style="position:fixed; left:320px; top:410px; width:80px; height:170px; border:none;">
+	<span class="suitcasetext" id="mysuitcase">ITEM FOUND: SUITCASE </br>Looks like someone is going home! Not very helpful though...</span></div>
+	
+<script>
+// FUNCTIONS FOR CLUE POPUPS
+function posterFunction() {
+  var poster = document.getElementById("myposter");
+  poster.classList.toggle("show");
+}
+function suitcaseFunction() {
+  var suitcase = document.getElementById("mysuitcase");
+  suitcase.classList.toggle("show");
+}
+function walletFunction() {
+  var wallet = document.getElementById("mywallet");
+  wallet.classList.toggle("show");
+}
+
+
+//FUNCTION TO PLAY SOUND EFFECTS
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+
+</script>
