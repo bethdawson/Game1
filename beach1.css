@@ -1,0 +1,189 @@
+body {
+	background-repeat: no-repeat;
+    background-size: cover;
+	background-image: url("seabeach1.png");
+	min-height: 150%;
+	cursor: url("glass.png"), auto;
+}
+
+/* Popup container */
+.popup {
+  position: absolute;
+  display: inline-block;
+  bottom: 110px;
+  right: 170px;
+  cursor: url(glass.png), auto;
+
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 18px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+
+}
+
+
+
+
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+.flipflops {
+  position: absolute;
+  display: inline-block;
+  cursor: url(glass.png), auto;
+  left: 100px;
+  bottom: 150px;
+
+}
+
+.flipflops .flipfloptext {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 18px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+
+}
+
+
+
+
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.flipflops .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+.surfer {
+  position: absolute;
+  display: inline-block;
+  top: 240px;
+  right: 450px;
+  cursor: url(glass.png), auto;
+
+}
+
+.surfer .surfertext {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 18px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+
+}
+
+
+
+
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.surfer .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+#buttonboxback {
+    width: 110px;
+    height: 40px;
+    background-color: #42a7f5;
+    position: relative;
+    margin-left: 40px;
+    border-radius: 5px;
+}
+
+#buttonboxback:before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: -17px;
+    border-style: solid;
+    border-width: 20px 20px 20px 0;
+    border-color: transparent #42a7f5 transparent transparent;
+}
+
+#buttonboxback > a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font:  14px/40px Sans-Serif;
+}
+
+#buttonboxback:hover {
+    background-color: lightblue;
+}
+
+#buttonboxback:hover:before {
+    border-right-color: lightblue;
+}
+
+
+

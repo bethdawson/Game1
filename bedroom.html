@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Bedroom</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="bedroom.css">
+	<link rel="icon" type="image/png" href="favicon.png"> <!-- favicon for tab-->
+
+</head>
+<body>
+	<!--BACK BUTTON-->
+	<div id="buttonboxback"><a href="house.html">Back to House</a></div>
+	
+	<!--sounds for clues, positive and negative -->
+	<audio controls autoplay hidden id="correct"><source src="found.mp3" type="audio/mpeg"></audio>
+	<audio controls autoplay hidden id="wrong"><source src="wrong.mp3" type="audio/mpeg"></audio>
+	
+	<!-- Frame clue and Information -->
+	<div class="sand" onclick="sandFunction(), playPositive()"> <img src="sand.png" style="position:fixed; left:60px; bottom:10px; width:70px; height:20px; border:none;">
+	<span class="sandtext" id="mySand">ITEM FOUND: SANDY FOOTPRINTS </br> There's sandy footprints all over the bedroom, how interesting!</span></div>
+	<img src="sand1.png" style="position:fixed; left:10px; bottom:30px; width:70px; height:20px; border:none;">
+
+			
+	<!-- Wedding ring clue and Information -->
+	<div class="ring" onclick="ringFunction(), playPositive()"> <img src="ring.png" style="position:fixed; left:230px; bottom:155px; width:10px; height:10px; border:none;">
+	<span class="ringtext" id="myRing">ITEM FOUND: WEDDING RING </br> You've found a wedding ring, but does it belong to Nicholas or Juliet? And why isn't it being worn?</span></div>
+		
+	<!-- Handbag clue and Information -->
+	<div class="papers" onclick="papersFunction(), playPositive()"> <img src="paper.png" style="position:fixed; right:190px; bottom:145px; width:50px; height:50px; border:none; transform: rotate(-25deg);">
+	<span class="paperstext" id="myPapers">ITEM FOUND: DIVORCE PAPERS</br>It looks like the couple actually weren't 'living in paradise'...</span></div>
+
+		
+</body>
+
+<script>
+//FUNCTIONS FOR POPUP CLUES
+function sandFunction() {
+  var sand = document.getElementById("mySand");
+  sand.classList.toggle("show");
+}
+
+function ringFunction() {
+  var ring = document.getElementById("myRing");
+  ring.classList.toggle("show");
+}
+
+function papersFunction() {
+  var papers = document.getElementById("myPapers");
+  papers.classList.toggle("show");
+}
+
+//FUNCTION TO PLAY SOUND EFFECTS
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+
+
+</script>
