@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Kitchen</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="kitchen.css">
+</head>
+<body>
+	<div id="buttonboxback"><a href="house.html">Back to House</a></div>
+
+<!--sounds for clues, positive and negative -->
+	<audio controls autoplay hidden id="correct"><source src="found.mp3" type="audio/mpeg"></audio>
+	<audio controls autoplay hidden id="wrong"><source src="wrong.mp3" type="audio/mpeg"></audio>
+
+	<!-- note clue and Information -->
+	<div class="note" onclick="playPositive(); noteFunction()"><img src="note.png" style="position:fixed; left:120px; top:170px; width:90px; height:100px; border:none;">
+	<span class="notetext" id="myNote">ITEM FOUND: POST IT NOTE </br>"Bank meeting - Mon 10:20am"</span></div>
+
+	<!-- Wine clue and Information -->
+	<div class="wine" onclick="playPositive(); wineFunction()"><img src="wine.png" style="position:fixed; right:100px; top:320px; width:70px; height:80px; border:none;">
+	<span class="winetext" id="myWine">ITEM FOUND: BOTTLE OF WINE </br>Drinking to celebrate? Or drowning sorrows?</span></div>
+
+  
+
+
+  </body>
+
+</html>
+	
+	
+</body>
+
+<script>
+// FUNCTION FOR POPUP CLUES
+function noteFunction() {
+  var note = document.getElementById("myNote");
+  note.classList.toggle("show");
+}
+function wineFunction() {
+  var wine = document.getElementById("myWine");
+  wine.classList.toggle("show");
+}
+
+//FUNCTION TO PLAY SOUND EFFECTS
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+
+</script>
