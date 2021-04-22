@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Lifegaurd</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="lifeguard.css">
+</head>
+<body>
+
+<div id="buttonboxback"><a href="beachmenu.html">Back to Beach</a></div>
+	
+		<audio controls loop hidden id="music">
+		<source src="waves.mp3" type="audio/mpeg">
+		Your browser does not support the audio element.
+		</audio>
+		
+		<img src="play.png" style = "width:25px; height:25px; position:fixed; right:40px; bottom:25px;" onclick="play()('theme.mp3')">
+		<img src="pause.png" style = "width:25px; height:21px; position:fixed; right:10px; bottom:26px;" onclick="pause()('theme.mp3')">
+		
+		<img src="lifeguard.svg" style="position:fixed; left:200px; bottom:-60px; width:600px; height:700px; border:none;">
+
+<audio controls autoplay hidden id="correct">
+    <source src="found.mp3" type="audio/mpeg">
+</audio>
+	
+	<audio controls autoplay hidden id="wrong">
+    <source src="wrong.mp3" type="audio/mpeg">
+	</audio>
+	
+	
+		</body>
+	
+<script>
+
+
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+var myMusic= document.getElementById("music");
+function play() {
+myMusic.play();
+}
+
+function pause() {
+myMusic.pause();
+}
+</script>
+  
