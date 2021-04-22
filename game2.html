@@ -1,0 +1,987 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, inital-scale=1.0">
+<title>Beach Body</title>
+<link rel="stylesheet" href="game.css">
+<link rel="icon" 
+      type="image/png" 
+      href="favicon.png">
+</head>
+<body>
+   <!--title with some inline css -->
+  <div class="dark fire"><h1 class="Blazing"  style = "position:fixed; left: 350px; top:40px; ">BEACH BODY</h1></div>
+  
+<!-- button with popup to be reminded of rules etc-->
+<div class="popup" onclick="myFunction()" >Help
+  <span class="popuptext" id="myPopup" >There's been a murder in the resort!<br>It is up to you to solve who did it. Click on different sections of the resort to interview suspects
+  and find clues by paying close attention in the search scenes!<br><br>CLICK AGAIN TO CLOSE</span>
+</div>
+
+<!--restart button-->
+<div id="restart"><a href="restart.html" style = "text-decoration: none; color: white;">Restart</a></div>
+
+<!--images with hyperlinks-->
+<a href="beach.html"><img  src="boat.png" style = "position: fixed; right: 110px; bottom: 30px; width: 100px; height: 100px;"></a>
+<a href="casino-search.html"><img  src="chip.png" style = "position: fixed; right: 160px; top: 120px; width: 50px; height: 50px;"></a>
+<a href="house.html"><img  src="home.png" style = "position: fixed; right: 130px; bottom: 170px; width: 70px; height: 70px;"></a>
+<a href="reception.html"><img  src="suitcase.png" style = "position: fixed; right: 140px; top: 230px;width: 60px; height: 60px;"></a>
+
+<!-- arrows for pointing to images-->
+	 <div id="arrow1" style="position:fixed; right:240px; bottom:250px; width:110px; height:100px; border:none;"></div>
+	
+	
+	<!--image and inline stying for interview scenes-->
+  <div id="images" style="position:fixed; left:30px; bottom:-60px; width:450px; height:550px; border:none;"></div>
+
+	<!--container for text and option buttons, with inline styling-->
+  <div class = "container" style = "position: fixed; top: 100px; width: 500px;">
+ 
+  <!--text to speech buttons -->
+	<button id="play" style = "background-color: transparent; border:none; "><img src= "play.png" style = "width: 20px; height: 20px; "></button> 
+	<button id="stop" style = "background-color: transparent; border:none;"></button>
+	 <!--wraps the text i want to be spoken in article tag-->
+	<article><div id="text"></div></article>
+	<!-- text input box so player can input name -->
+    <div id="buttonBox"></div>
+	</div> <!--closes container-->
+
+
+<!-- Theme tune with play/pause buttons -->
+	<audio controls autoplay loop hidden id="music">
+	<source src="theme.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+	</audio>
+	<!-- images for buttons and placements -->
+	<img src="play.png" style = "width:25px; height:25px; position:fixed; right:40px; bottom:25px;" onclick="play()('theme.mp3')">
+	<img src="pause.png" style = "width:25px; height:21px; position:fixed; right:10px; bottom:26px;" onclick="pause()('theme.mp3')">
+	
+</body>
+</html>
+
+<script>
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+//function for text to speech element
+
+onload = function() {
+  if ('speechSynthesis' in window) with(speechSynthesis) {
+
+    var playEle = document.querySelector('#play');
+    var stopEle = document.querySelector('#stop');
+    var flag = false;
+
+    playEle.addEventListener('click', onClickPlay);
+
+
+    function onClickPlay() {
+      if (!flag) {
+        flag = true;
+        utterance = new SpeechSynthesisUtterance(document.querySelector('article').textContent);
+		//deciding the voice, speed and pitch
+        utterance.voice = getVoices()[3];
+		utterance.pitch = 1;
+        utterance.onend = function() {
+          flag = false;
+          playEle.className = pauseEle.className = '';
+          stopEle.className = 'stopped';
+        };
+        playEle.className = 'played';
+        stopEle.className = '';
+        speak(utterance);
+      }
+    }
+  }
+}
+
+//function for playing theme music
+var myMusic= document.getElementById("music");
+myMusic.volume = 0.1;
+//play function
+function play() {
+myMusic.play();
+}
+//pause function
+function pause() {
+myMusic.pause();
+}
+
+//getting variables from the html
+var buttonboxback = document.getElementById("buttonboxback");
+var images = document.getElementById("images"); 
+var arrow1 = document.getElementById("arrow1"); 
+var text = document.getElementById("text"); 
+var buttonBox = document.getElementById('buttonBox');
+
+var body = document.getElementsByTagName('body')[0];
+//variable for user input
+
+
+
+//function to be able to change background image on demand
+var changeBody = function(pic){
+	  body.style.backgroundImage = "url(" + pic + ")";
+}
+var changeArrow = function(yes){
+	  arrow1.style.backgroundImage = "url(" + yes + ")";
+}
+
+//function for after user types in the character name and hits enter
+//adds the name to the variable, remove the input box and start our first scenario
+
+//this changes the text and puts in the characters name
+var changeText = function(words) {
+  text.innerHTML = words.replace("doe", "");
+};
+
+//this takes the image link and puts it in the proper format
+var changeImage = function(img) {
+  images.style.backgroundImage = "url(" + img + ")";
+};
+
+
+//creates the option buttons
+var changeButtons = function(buttonList) {
+  buttonBox.innerHTML = "";
+  for (var i = 0; i < buttonList.length; i++) {
+    buttonBox.innerHTML += "<button onClick="+buttonList[i][1]+">" + buttonList[i][0] + "</button>";
+  };
+};
+
+//moves the scenarios on
+var next = function(s) {
+  changeImage(s.image)
+  changeText(s.text)
+  changeButtons(s.buttons)
+  changeBody(s.body)
+  changeArrow(s.arrow1)
+  
+};
+
+let state
+
+function startGame() {
+  state = { }
+  next(scenario.options)
+}
+//scenarios and the feautures of each one
+scenario = {}
+var scenario = {
+
+//following block of scenarios are options during the introduction stage
+  intro1: {
+    text: "Welcome to Beach Body! \n Please enter your surname and hit enter to begin!",
+  },
+  intro2: {
+	body: "5522.jpg",
+    image: "officer.svg",
+    text: "Detective doe! It's great to finally meet you, I'm officer Leos.",
+    buttons: [["Great to meet you!", "next(scenario.intro3)"]],
+
+  },
+  intro3: {
+	body: "5522.jpg",
+    image: "officer.svg",
+    text: "I'm very sorry you're having to take time away from your holiday, but you are very much needed. <br> I trust you know about the case?",
+    buttons: [["Please remind me of the details", "next(scenario.intro4)"]]
+  },
+   intro4: {
+	body: "5522.jpg",
+    image: "officer.svg",
+    text: "Nicholas Adonis, the co-owner of the Oasis Tropicana was found dead on the resorts beach early yesterday morning.<br>I believe you're staying at his hotel, so you may of met him when you checked in.",
+    buttons: [["*Continue*", "next(scenario.intro5)"]]
+  },
+   intro5: {
+	body: "5522.jpg",
+    image: "officer.svg",
+    text: "He was found on the beach by the resorts lifeguard, George Mikos. Our team has got the main suspects down to 5 people, but we now rely on you. ",
+    buttons: [["I understand", "next(scenario.intro6)"]],
+  },
+  intro6: {
+	body: "5522.jpg",
+    image: "officer.svg",
+    text: "Detective doe it is up to you search the resort for clues and to question the suspects. You have a great reputation and therefore whoever you decide is the culprit will be arrested.",
+    buttons: [["*continue*", "next(scenario.intro7)"]]
+  },
+    intro7: {
+	body: "5522.jpg",
+    image: "officer.svg",
+    text: "Make your decisions carefully. Choosing your search scenes and who to interview will have an impact on the information you gather.<br> Do you understand? ",
+    buttons: [["I understand!", "next(scenario.options)"],["Explain again please", "next(scenario.intro6)"]]
+  },
+  //menu
+    options: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "Where would you like to go? ",
+    buttons: [["Beach", "next(scenario.beach)"],["Nicholas' Home", "next(scenario.house1)"],["Hotel", "next(scenario.hotel1)"],["Casino", "next(scenario.casino)"],["MAKE AN ARREST", "next(scenario.arrest)"]],
+  },
+  //NEXT SET ARE FOR BEACH, INCLUDING INTERVIEWS
+	beach: {
+	body: "seabeach1.png",
+	image: "officer.svg",
+    text: "What would you like to do first? ",
+    buttons: [["Search the beach", "next(scenario.beachSearch)"],["Question the lifeguard", "next(scenario.beachLifeguard)"],["Back to options", "next(scenario.options)"]],
+  },
+  	beachSearch: {
+	body: "seabeach1.png",
+	image: "officer.svg",
+	arrow1: "arrowbeach.png",
+    text: "Great idea Detective doe! Please click on the boat icon to start your search ",
+    buttons: [["Question the lifeguard instead", "next(scenario.beachLifeguard)"]],
+  },
+    beachLifeguard: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Oh hi. I'm guessing you have some questions about me finding Nicholas?",
+    buttons: [["Yes George, it's just standard procedure nothing to worry about", "next(scenario.beachLifeguard1)"],["Yes George, we have a lot to discuss", "next(scenario.beachLifeguard1)"]],
+  },
+   beachLifeguard1: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Well I'm happy to help Detective doe, go ahead.",
+    buttons: [["What were you doing on the beach the morning you found the body?", "next(scenario.beachLifeguard2)"],["How was George's relationship with the staff?", "next(scenario.beachLifeguard7)"]],
+  },
+   beachLifeguard2: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "I was starting my shift, I turned up early because I have been getting in trouble for being late recently",
+    buttons: [["I understand you found the body at 7:30am. What time was your shift supposed to start?", "next(scenario.beachLifeguard3)"],["Trouble? Were you often in trouble with Nicholas?", "next(scenario.beachLifeguard5)"]],
+  },
+   beachLifeguard3: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "My shifts start at 9",
+    buttons: [["So you were an hour and a half early? That seems a bit extreme does it not?", "next(scenario.beachLifeguard4)"]],
+  },
+   beachLifeguard4: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Like I said, Nicholas was unhappy with my timings recently so I was just trying to get back in his good books.",
+    buttons: [["I see. Were you often in Nicholas's bad books?", "next(scenario.beachLifeguard5)"],["Is there a reason you were turning up late to your shifts?", "next(scenario.beachLifeguard10)"]],
+  },
+  beachLifeguard5: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "No, no of course not. Nicholas was a great manager. Recently he just seemed a bit stressed.",
+    buttons: [["Stressed? Do you know why he was so stressed?", "next(scenario.beachLifeguard6)"],["A great manager? Do you think everyone would agree?", "next(scenario.beachLifeguard8)"]],
+  },
+  beachLifeguard6: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "No, sorry detective doe but I think ive given you all the information I have.",
+    buttons: [["Thank you for your help George.", "next(scenario.beachLifeguard12)"]],
+  },
+  beachLifeguard7: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "George was a great boss. He was very friendly, almost too friendly.",
+    buttons: [["What do you mean by too friendly?", "next(scenario.beachLifeguard8)"],["Do you think other staff members would agree?", "next(scenario.beachLifeguard8)"]],
+  },
+  beachLifeguard8: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Well I feel he was a bit overbearing with some of the girls sometimes, but I'm probably just reading situations wrong.",
+    buttons: [["I see. Do you know if any staff member had a motive?", "next(scenario.beachLifeguard9)"],["Is there anyone in particular you witnessed experience this behaviour?", "next(scenario.beachLifeguard11)"]],
+  },
+ beachLifeguard9: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Oliver Holland was recently fired, but I don't think he would do such a thing.",
+    buttons: [["Thank you George, you've been a great help", "next(scenario.beachLifeguard12)"]],
+  },
+   beachLifeguard10: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Nicholas asked me to start coaching late night swimming lessons in the indoor pool. So the late nights have messed up my sleep schedule.",
+    buttons: [["I see. Thank you George, you've been a great help", "next(scenario.beachLifeguard12)"]],
+  },
+ beachLifeguard11: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Yes Alexia Baros. She works in the beachhut bar during the day but also picks up shifts at the casino. He hangs around her a lot.",
+    buttons: [["Thank you George, you've been a great help", "next(scenario.beachLifeguard12)"]],
+  },
+ beachLifeguard12: {
+	body: "lifeguardchair.jpg",
+	image: "lifeguard.svg",
+    text: "Bye detective doe!",
+    buttons: [["Bye", "next(scenario.beach2)"]],
+  },
+  beach2: {
+	body: "seabeach1.png",
+	image: "officer.svg",
+    text: "What would you like to do now? ",
+    buttons: [["Search the beach", "next(scenario.beachSearch)"],["Back to options", "next(scenario.options)"]],
+  },
+  
+  //casino
+  casino: {
+	body: "casino_generated.jpg",
+	image: "officer.svg",
+    text: "What would you like to do first? ",
+    buttons: [["Search the casino", "next(scenario.casinoSearch)"],["Question Alexia Baros", "next(scenario.Alexia)"],["Question Oliver Holland", "next(scenario.Oliver)"],["Back to options", "next(scenario.options)"]],
+  },
+  casino2: {
+	body: "casino_generated.jpg",
+	image: "officer.svg",
+    text: "What would you like to do now? ",
+    buttons: [["Search the casino", "next(scenario.casinoSearch)"],["Question Oliver Holland", "next(scenario.Oliver)"],["Back to options", "next(scenario.options)"]],
+  },
+  casino3: {
+	body: "casino_generated.jpg",
+	image: "officer.svg",
+    text: "What would you like to do now? ",
+    buttons: [["Search the casino", "next(scenario.casinoSearch)"],["Question Alexia Baros", "next(scenario.Alexia)"],["Back to options", "next(scenario.options)"]],
+  },
+ casinoSearch: {
+	body: "casino_generated.jpg",
+	image: "officer.svg",
+	arrow1: "casinoarrow.png",
+    text: "Great idea Detective doe! Please click on the poker chip icon to start your search ",
+    buttons: [["Condcut interviews instead", "next(scenario.casino)"]],
+  },
+	
+    Alexia: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Hi! What can I get you?",
+    buttons: [["Nothing thank you. Are you Alexia Baros?", "next(scenario.Alexia1)"],["*order a drink*", "next(scenario.Alexia9)"]],
+  },
+    Alexia1: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Yes can I help you with something?",
+    buttons: [["Yes, I'm here on behalf of Paphos Police. I have some questions about the recent murder of Nicholas Adonis", "next(scenario.Alexia2)"],["*Show badge*", "next(scenario.Alexia2)"]],
+  },
+    Alexia2: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Oh I see.",
+    buttons: [["Miss Baros, where were you the night before Nicholas was murdered? ", "next(scenario.Alexia3)"],["Miss Baros, did you enjoy working for Mr and Mrs Adonis?", "next(scenario.Alexia10)"]],
+  },
+    Alexia3: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "I was here, working behind the bar.",
+    buttons: [["Did you see Nicholas that night?", "next(scenario.Alexia4)"],["Would the casino manager be able to back that up?", "next(scenario.Alexia13)"]],
+  },
+    Alexia4: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Uh no I don't think I did. He was in here most nights though.",
+    buttons: [["Miss Baros it is important to be certain about your answers. Did you see Nicholas during your shift or not?", "next(scenario.Alexia5)"],["Most nights? At the bar or gambling?", "next(scenario.Alexia19)"]],
+  },
+    Alexia5: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "No Detective, I did not.",
+    buttons: [["Thank you. How was yours and Nicholas's relationship?", "next(scenario.Alexia6)"]],
+  },
+    Alexia6: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Our relationship was strictly professional Detective doe, I don't know what you're implying.",
+    buttons: [["Forgive me, I wasn't implying anything just asking a question", "next(scenario.Alexia7)"],["Just asking a question. How long have you worked at the resort?", "next(scenario.Alexia)14"]],
+  },
+    Alexia7: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "I'm sorry but I don't have time to continue the interview, the casino is too busy.",
+    buttons: [["Oh, I understand.", "next(scenario.Alexia8)"]],
+  },
+  Alexia8: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Goodbye.",
+    buttons: [["Goodbye", "next(scenario.casino2)"]],
+  },
+  Alexia9: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Here you go! I can put that on your tab if I can just get your name please?",
+    buttons: [["I'm here on behalf of Paphos Police and I have some questions about the recent murder of Nicholas Adonis", "next(scenario.Alexia2)"],["*Show badge*", "next(scenario.Alexia2)"]],
+  },
+    Alexia10: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Yes they're very nice people. After I started at the beach bar, they helped me get some shifts here for some extra money. ",
+    buttons: [["Would you say you and Nicholas got on well?", "next(scenario.Alexia15)"],["When you say they helped you, you mean they just gave you another job?", "next(scenario.Alexia11)"]],
+  },
+    Alexia11: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "No, the casino is the only thing in the resort not owned or ran by the Adonis's. Nicholas put in a good word for me with the manager.",
+    buttons: [["That was nice of him, did he often help his staff?", "next(scenario.Alexia12)"]],
+  },
+    Alexia12: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Oh I'm not sure. I didn't ask him to do it for me, he just did. He always went out of his way to be nice to me.",
+    buttons: [["Do you think his wife approved of that?", "next(scenario.Alexia6)"],["He sounds like a nice man. Is that Oliver Holland over there?", "next(scenario.Alexia17)"]],
+  },
+    Alexia13: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Um yes, but today is their day off.",
+    buttons: [["I see. Miss Baros, did you enjoy working for Mr and Mrs Adonis?", "next(scenario.Alexia10)"]],
+  },
+  Alexia14: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Just since the start of the season, so around 6 weeks now.",
+    buttons: [["I see. Miss Baros, did you enjoy working for Mr and Mrs Adonis?", "next(scenario.Alexia10)"]],
+  },
+    Alexia15: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "I suppose we did. He would always hang round the bar whilst I was working, it got a bit annoying.",
+    buttons: [["Annoying? How so?", "next(scenario.Alexia16)"]],
+  },
+    Alexia16: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Oh nothing. I, I guess he was just being friendly. I'm sorry detective but the bar is too busy to answer more questions.",
+    buttons: [["No worries Alexia, thank you for your help.", "next(scenario.Alexia8)"]],
+  },
+    Alexia17: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Yes he was fired a few days ago, did you hear? He's not taking it well he's been in here most nights gambling away.",
+    buttons: [["Why was he fired?", "next(scenario.Alexia18)"]],
+  },
+    Alexia18: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "I don't know the full details but apparently he was caught fiddling with books, paying himself way more than he should. Nicholas was in here the night after it happened and I've never seen him so angry.",
+    buttons: [["Oh how interesting. Thank you for all your help Alexia", "next(scenario.Alexia8)"]],
+  },
+    Alexia19: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "He would hang around the bar a lot, get quite drunk. But he was also playing a lot of poker and blackjack, losing a lot of money it looked like.",
+    buttons: [["Do you think his wife knew how much money he was losing?", "next(scenario.Alexia20)"],["Would you say you and Nicholas got on well?", "next(scenario.Alexia15)"]],
+  },
+   Alexia20: {
+	body: "casino.jpg",
+	image: "my_character.svg",
+    text: "Oh I'm really not sure detective. It's not really any of my business.",
+    buttons: [["I understand, thank you for all your help Alexia", "next(scenario.Alexia8)"]],
+  },
+  
+  //Oliver Holland interview
+  
+    Oliver: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "",
+    buttons: [["Excuse me? Mr Holland?", "next(scenario.Oliver3)"],["Angry, losing money and bit drunk? You must be Oliver Holland.", "next(scenario.Oliver1)"]],
+  },
+     Oliver1: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "Excuse me?? Who do you think you are? Get out of my way.",
+    buttons: [["Oh I didn't mean to cause offence, I ...", "next(scenario.Oliver2)"]],
+  },
+     Oliver2: {
+	body: "casino.jpg",
+	image: "officer.svg",
+    text: "Detective! Watch what you say to the suspects or you'll miss out on a chance to speak to them!",
+    buttons: [["Got it!", "next(scenario.casino3)"]],
+  },
+     Oliver3: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "What? Oh, uh, detective. Can I help you?",
+    buttons: [["Yes I need to ask you some questions regarding Nicholas Adonis.", "next(scenario.Oliver4)"]],
+  },
+     Oliver4: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "He got what was coming to him.",
+    buttons: [["Are you saying Nicholas deserved to be murdered?", "next(scenario.Oliver5)"],["You're clearly very angry Oliver. What happened between you two?", "next(scenario.Oliver8)"]],
+  },
+   Oliver5: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "Well murdered is extreme but lets just say Karma.",
+    buttons: [["Karma for firing you?", "next(scenario.Oliver6)"],["So you think his murder was a form of revenge?", "next(scenario.Oliver5)"]],
+  },
+   Oliver6: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "No! Obviously I didn't kill him. But I can think of a lot of people who would consider it.",
+    buttons: [["What makes you think Nicholas had a lot of enemies?", "next(scenario.Oliver7)"],["Well I need to ask, where were you the night he was murdered?", "next(scenario.Oliver13)"]],
+  },
+   Oliver7: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "I've known him for almost 15 years, he was like a dad to me. I knew everything about him, his personal life, his love life. I did the books for the hotel so I even knew what state his finances were in.",
+    buttons: [["You say he was like a dad, yet you don't seem very upset about his death?", "next(scenario.Oliver8)"],["And what state were his finances in?", "next(scenario.Oliver11)"]],
+  },
+     Oliver8: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "He took my job, kicked me out of my accomodation and he wouldn't even write a reccomendation so I could get another job. What kind of 'friend' would do that?",
+    buttons: [["You never mentioned why you were fired?", "next(scenario.Oliver9)"],["You could say, he gave you a lot of motive.", "next(scenario.Oliver12)"]],
+  },
+     Oliver9: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "It was just a misunderstanding about my bonus. He accused me of overpaying myself. I've always been so loyal to the Adonis's I would never!",
+    buttons: [["So you didn't steal money from them?", "next(scenario.Oliver10)"],["How is your relationship with Mrs Adonis?", "next(scenario.Oliver18)"]],
+  },
+     Oliver10: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "No, *laughs* and even if I wanted to theres not that much left to steal!",
+    buttons: [["Are you saying the hotel is struggling?", "next(scenario.Oliver11)"],["Thank you for all your help. I must be going.", "next(scenario.Oliver16)"]],
+  },   
+  Oliver11: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "Let's just say. If he put as much money into the hotel as he spent in here, then it would be a very different story.",
+    buttons: [["Oh I get you. Thank you answering my questions, I must be going.", "next(scenario.Oliver16)"],["I see, Oliver where were you the night of his murder?", "next(scenario.Oliver13)"]],
+  },
+     Oliver12: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "That's ridiculous! I think I've answered enough questions detective. Goodbye.",
+    buttons: [["Oh, bye Oliver", "next(scenario.beach16)"]],
+  },
+     Oliver13: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "I was here in the casino. I didn't stay for long though, I left as soon as Nicholas turned up.",
+    buttons: [["Nicholas was at the Casino the night he was murdered?", "next(scenario.Oliver17)"],["I see, and what about the morning his body was found?", "next(scenario.Oliver14)"]],
+  },
+     Oliver14: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "How early in the morning was he found? Because the chances are I was still asleep.",
+    buttons: [["Thanks for all your help Oliver, I'll be in touch.", "next(scenario.Oliver16)"],["And do you live on the resort?", "next(scenario.Oliver15)"]],
+  },
+     Oliver15: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "*Shakes head* Up until last week I did, but right now im crashing at a mates about 20 mins away..",
+    buttons: [["Thanks for all your help Oliver, I'll be in touch.", "next(scenario.Oliver16)"]],
+  },
+      Oliver16: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "Thanks Detective",
+    buttons: [["Goodbye", "next(scenario.beach3)"]],
+  },
+      Oliver17: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "Yes, it must of been around 11pm when I noticed him sat at the bar. Looked like he was looking for someone.",
+    buttons: [["Thanks for all your help Oliver, I'll be in touch.", "next(scenario.Oliver16)"]],
+  },
+      Oliver18: {
+	body: "casino.jpg",
+	image: "oliver_.svg",
+    text: "I can't say we've been the best of friends since I was fired, but she's pleasant enough.",
+    buttons: [["Thanks for all your help Oliver, I'll be in touch.", "next(scenario.Oliver16)"],["I see, Oliver where were you the night of his murder?", "next(scenario.Oliver13)"]],
+  },
+  
+  
+  //BLOCK FOR HOUSE INCLUDING INTERVIEW AND SEARCH SCENES
+    house1: {
+	body: "house.jpg",
+	image: "officer.svg",
+    text: "What would you like to do first?",
+    buttons: [["Search the house", "next(scenario.searchhouse)"],["Interview Juliet Adonis ", "next(scenario.juliet)"], ["Back to options", "next(scenario.options)"]],
+  },
+    searchhouse: {
+	body: "house.jpg",
+	image: "officer.svg",
+	arrow1: "housearrow.png",
+    text: "Great Idea! There's 3 different rooms to search so don't miss any clues! Press the house icon to begin your search!",
+    buttons: [["Interview Juliet Adonis instead ", "next(scenario.juliet)"]],
+  },
+    house2: {
+	body: "house.jpg",
+	image: "officer.svg",
+    text: "What would you like to do?",
+    buttons: [["Search the house", "next(scenario.searchhouse)"],["Back to options", "next(scenario.options)"]],
+  },
+   juliet: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Detective! I've been expecting you please come in.",
+    buttons: [["Thank you. I'm very sorry for your loss.", "next(scenario.juliet1)"],["I've got a lot of questions for you.", "next(scenario.juliet2)"]],
+  },
+   juliet1: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Thank you Detective. I presume you have questions for me?",
+    buttons: [["Yes, thank you.", "next(scenario.juliet2)"]],
+  },
+   juliet2: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Well go ahead.",
+    buttons: [["Did you murder your husband?", "next(scenario.juliet3)"],["Where were you the night Nicholas was murdered?", "next(scenario.juliet5)"]],
+  },
+   juliet3: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "What!! Of course not! Please get out! *Slams door*",
+    buttons: [["NEXT", "next(scenario.juliet4)"]],
+  },
+   juliet4: {
+	body: "house.jpg",
+	image: "officer.svg",
+    text: "Detective! Watch what you say to the suspects or you'll miss out on a chance to speak to them!",
+    buttons: [["Got it!", "next(scenario.house2)"]],
+  },
+   juliet5: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "I was at home asleep. I was used to Nicholas having late nights so I wasn't worried when he didn't come home.",
+    buttons: [["What was Nicholas doing out so late?", "next(scenario.juliet6)"],["Did it bother you Nicholas was staying out a lot?", "next(scenario.juliet7)"]],
+  },
+  juliet6: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "At the casino I pressume. He spent more time there than he did at home recently.",
+    buttons: [["Do you know if he went to the casino alone or with a friend?", "next(scenario.juliet22)"],["Did it bother you Nicholas was often gambling?", "next(scenario.juliet7)"]],
+  },
+  juliet7: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Of course it did! What wife wouldn't be bothered. But what could I do.",
+    buttons: [["How was your relationship?", "next(scenario.juliet8)"],["Understandable, how long have you owned the hotel?", "next(scenario.juliet16)"]],
+  },
+  juliet8: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Just like most married couples, had it's ups and downs but we were still in love.",
+    buttons: [["When you say 'downs' Mrs Adonis. What are you referring to?", "next(scenario.juliet9)"],["Okay, and what about Nicholas's friendships. Do you know anyone who might want to do this?", "next(scenario.juliet10)"]],
+  },
+  juliet9: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Just silly arguments Detective, nothing that would make me want to kill him, if that's what you're implying.",
+    buttons: [["I'm just doing my job Juliet", "next(scenario.juliet19)"],["Did Nicholas enjoy working at the hotel?", "next(scenario.juliet17)"]],
+  },
+  juliet10: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Yes, Oliver Holland, who we recently fired. Oh and Mark Bennett!",
+    buttons: [["Mark Bennett?", "next(scenario.juliet11)"],["Do you think either of them are capable?", "next(scenario.juliet20)"]],
+  },
+  juliet11: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Yes, he's a guest at our hotel. He checked in a few days ago and he basically attacked Nicholas around the pool bar.",
+    buttons: [["Attacked? Did he assault your husband?", "next(scenario.juliet12)"],["Why did he do that?", "next(scenario.juliet21)"]],
+  },
+  juliet12: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Well no, he just got in his face and was shouting at him. But I also saw him at the beach in the morning before Nicholas was found!",
+    buttons: [["Mrs Adonis, are you saying you were also on the beach that morning?", "next(scenario.juliet13)"],["Why was he angry?", "next(scenario.juliet21)"]],
+  },
+  juliet13: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Oh uh no Detective. I was taking an early morning stroll on the prom, I didn't actually go on the beach, like the sand. You know?",
+    buttons: [["So you could see Mark on the beach, but not your husband?", "next(scenario.juliet8)"],["So were you not even a bit worried the next morning when you woke up and he wasn't there?", "next(scenario.juliet14)"]],
+  },
+  juliet14: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Like I just said. It wasn't out of the ordinary. Is that all your questions?",
+    buttons: [["Oh uh, yes Mrs Adonis. Thank you for your time.", "next(scenario.juliet15)"]],
+  },
+  juliet15: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Goodbye!",
+    buttons: [["Goodbye", "next(scenario.house2)"]],
+  },
+  juliet16: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Coming up for 16 years now. I inheritted it from my father, it was his pride and joy so I go out of my way to make it mine as well.",
+    buttons: [["Did Nicholas go out his way for the hotel as well?", "next(scenario.juliet17)"],["I see. I hate to ask, but do you know of anyone who would want to kill your husband?", "next(scenario.juliet10)"]],
+  },
+  juliet17: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Yes, Nicholas got very involved with the staff, he loved to help people, especially our new starts.",
+    buttons: [["Well thank you for your help Juliet, I better get going.", "next(scenario.juliet15)"]],
+  },
+  juliet18: {
+	body: "hall.jpg",
+	image: "wife.svg",
+    text: "Yes I didn't walk to that end of the beach. I'm done answering questions now Detective I have things to get on with.",
+    buttons: [["Oh uh, yes Mrs Adonis. Thank you for your time.", "next(scenario.juliet15)"]],
+  },
+    juliet19: {
+	body: "hall.jpg",
+	image: "wife.svg",
+	text: "I'm done answering questions now Detective I have things to get on with.",
+    buttons: [["Oh uh, yes Mrs Adonis. Thank you for your time.", "next(scenario.juliet15)"]],
+  },
+    juliet20: {
+	body: "hall.jpg",
+	image: "wife.svg",
+	text: "Oh absolutely",
+    buttons: [["Well thank you for your help Juliet, I better get going.", "next(scenario.juliet15)"]],
+  },
+    juliet21: {
+	body: "hall.jpg",
+	image: "wife.svg",
+	text: "There was a mix up with his room, it was just something minor. But he was very drunk, he had been drinking all day.",
+    buttons: [["Well thank you for your help Juliet, I better get going.", "next(scenario.juliet15)"]],
+  },
+    juliet22: {
+	body: "hall.jpg",
+	image: "wife.svg",
+	text: "*Laughs* Nicholas was never alone Detective.",
+    buttons: [["Did it bother you Nicholas was gambling a lot?", "next(scenario.juliet7)"],["How was your relationship?", "next(scenario.juliet8)"]],
+  },
+  hotel1: {
+	body: "hotel.jpg",
+	image: "officer.svg",
+    text: "What would you like to do first? ",
+    buttons: [["Search the hotel", "next(scenario.hotelSearch)"],["Question Mark Bennett", "next(scenario.Mark)"],["Back to options", "next(scenario.options)"]],
+  },
+  hotel2: {
+	body: "hotel.jpg",
+	image: "officer.svg",
+    text: "What would you like to do now? ",
+    buttons: [["Search the hotel", "next(scenario.hotelSearch)"],["Back to options", "next(scenario.options)"]],
+  },
+ hotelSearch: {
+	body: "hotel.jpg",
+	image: "officer.svg",
+	arrow1: "hotelarrow.png",
+    text: "Great idea Detective doe! Please click on the suitcase icon to start your search ",
+    buttons: [["Interview Mark instead", "next(scenario.Mark)"]],
+  },
+   Mark: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: " ",
+    buttons: [["Mark Bennett?", "next(scenario.Mark1)"]],
+  },
+  Mark1: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "What have I done now? ",
+    buttons: [["Well nothing I hope, I have some questions about Nicholas Adonis?", "next(scenario.Mark2)"],["You tell me", "next(scenario.Mark3)"]],
+  },
+   Mark2: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "Ah yes, terrible what happened isn't it. Really ruined everyones holiday vibe. ",
+    buttons: [["How inconvenient for you.", "next(scenario.Mark4)"],["I'm sure his family have got it worse than you.", "next(scenario.Mark4)"]],
+  },
+   Mark3: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "Excuse me? What is that supposed to mean? ",
+    buttons: [["Nothing, I have some questions about Nicholas Adonis?", "next(scenario.Mark2)"],["Well are you often in trouble Mr Bennett?", "next(scenario.Mark5)"]],
+  },
+   Mark4: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "*Shakes head* I didn't mean to sound insensitive. Anyway what are these questions? ",
+    buttons: [["Do you have an alibi for the night Nicholas was murdered?", "next(scenario.Mark6)"],["Did you and Nicholas get on well?", "next(scenario.Mark7)"]],
+  },
+  
+   Mark5: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "I don't have time for this rubbish. I take it you're here about Nicholas? ",
+    buttons: [["I am, do you have an alibi for the night Nicholas was murdered?", "next(scenario.Mark6)" ],["I am, did you and Nicholas get on well?", "next(scenario.Mark7)"]],
+  },
+   Mark6: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "*Laughs* You bet. I was in the hotel bar the whole night, drunk, very drunk. And if you don't believe me there's about 30 guests who witnessed my karaoke!",
+    buttons: [["I see, do you often get drunk Mark?", "next(scenario.Mark8)" ],["And what about the morning his body was found?", "next(scenario.Mark9)"]],
+  },
+   Mark7: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "We did for many years, but I take it you've heard about our argument? ",
+    buttons: [["What happened?", "next(scenario.Mark10)" ],["Many years? How long did you know each other?", "next(scenario.Mark11)"]],
+  },
+   Mark8: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "What kind of question is that? I'm on holiday I'm just having fun.",
+    buttons: [["Of course, are you on holiday with anyone?", "next(scenario.Mark6)" ],["Understandable, is this your first stay at the Oasis Tropicana? ", "next(scenario.Mark11)"]],
+  },
+  
+   Mark9: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "I was in bed, nursing my hangover. I didn't see sunlight until around 11am that day. ",
+    buttons: [["Were you alone?", "next(scenario.Mark12)" ],["Makes sense. Did you and Nicholas get on well?", "next(scenario.Mark13)"]],
+  },
+   Mark10: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "There was a mix up with my room. I booked for a deluxe suite with a seaview but I've got a carpark view. I wasn't happy, I got drunk and I took it out on him. I'll admit I was in the wrong. ",
+    buttons: [["Did you hit Nicholas?", "next(scenario.Mark14)" ],["How did Nicholas react?", "next(scenario.Mark17)"]],
+  },
+  Mark11: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "I've been coming here for 11 years now. My wife and I got on well with Nicholas and Juliet. ",
+    buttons: [["How did Nicholas seem around his wife recently?", "next(scenario.Mark19)" ],["Have you spoken to Juliet since his murder?", "next(scenario.Mark21)"]],
+  },
+   Mark12: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "I'm here with my wife, we've been coming here since our honeymoon. ",
+    buttons: [["And does your wife have an alibi for the night Nicholas was murdered?", "next(scenario.Mark16)" ],["I see, did you and Nicholas have any form of friendship?", "next(scenario.Mark13)"]],
+  },
+   Mark13: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "Yes, I guess you could say we were friends.",
+    buttons: [["Did you notice any changes in his behaviour recently?", "next(scenario.Mark19)" ],["What about his wife Juliet?", "next(scenario.Mark21)"]],
+  },
+   Mark14: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "No Detective I did't lay a finger on him and I certainly didn't kill him either. I'm done with these questions. ",
+    buttons: [["Oh I didn't mean to cause offence.", "next(scenario.Mark15)"]],
+  },
+   Mark15: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "Well you did, goodbye. ",
+    buttons: [["Goodbye!", "next(scenario.hotel2)"]],
+  },
+   Mark16: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "How dare you accuse my wife! I've tried to help you but I'm not answering any more questions! ",
+    buttons: [["Oh I didn't mean to cause offence.", "next(scenario.Mark15)"]],
+  },
+   Mark17: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "Well obviously he wasn't happy, but we sorted things out. He knew I didn't mean anything I said. ",
+    buttons: [["That's good, so you were on good terms before he died?", "next(scenario.Mark18)"]],
+  },
+   Mark18: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "I know what you're implying detective but I won't fall into your trap. Have a good day. ",
+    buttons: [["Oh, thanks for your time Mark", "next(scenario.hotel2)"]],
+  },
+   Mark19: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "He seemed tense, stressed maybe I'm not sure. But that is to be expected during the summer season, he always has a lot going on. ",
+    buttons: [["Well thank you for all your help.", "next(scenario.Mark20)"]],
+  },
+   Mark20: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "You're welcome Detective, goodbye! ",
+    buttons: [["Bye!", "next(scenario.hotel2)"]],
+  },
+   Mark21: {
+	body: "pool.jpg",
+	image: "mark1.svg",
+    text: "I've not spoken to Juliet since I've arrived. It's almost like she's avoiding me it's strange. ",
+    buttons: [["Oh I see. Well thank you for all your help!", "next(scenario.Mark20)"]],
+  },
+    //FINAL PART
+   arrest: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "Detective, are you ready to make an arrest? ",
+    buttons: [["Yes I know who killed Nicholas", "next(scenario.arrest1)"],["No I need more time", "next(scenario.options)"]],
+  },
+   arrest1: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "That's great news! Please make your arrest. ",
+    buttons: [["Oliver Holland", "next(scenario.arrestOliver)"],["Juliet Adonis", "next(scenario.arrestJuliet)"],["Mark Bennett", "next(scenario.arrestMark)"],["Alexia Baros", "next(scenario.arrestAlexia)"],["George Mikos", "next(scenario.arrestGeorge)"]],
+  },
+   arrestOliver: {
+	body: "5522.jpg",
+	image: "oliver_.svg",
+    text: "Detective you're wrong! Please I wouldn't do such a thing!",
+    buttons: [["continue", "next(scenario.arrestWrong)"]],
+  },
+   arrestMark: {
+	body: "5522.jpg",
+	image: "mark1.svg",
+    text: "Detective you're wrong! Please I wouldn't do such a thing!",
+    buttons: [["continue", "next(scenario.arrestWrong)"]],
+  },
+   arrestAlexia: {
+	body: "5522.jpg",
+	image: "my_character.svg",
+    text: "Detective you're wrong! Please I wouldn't do such a thing!",
+    buttons: [["continue", "next(scenario.arrestWrong)"]],
+  },
+   arrestGeorge: {
+	body: "5522.jpg",
+	image: "lifeguard.svg",
+    text: "Detective you're wrong! Please I wouldn't do such a thing!",
+    buttons: [["continue", "next(scenario.arrestWrong)"]],
+  },
+   arrestJuliet: {
+	body: "5522.jpg",
+	image: "wife.svg",
+    text: "Detective you're wrong! Please I wouldn't do such a thing!",
+    buttons: [["continue", "next(scenario.arrestRight)"]],
+  },
+   arrestWrong: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "Oh Detective! I hate to say it but they're right! We've just received an account from an eyewitness saying they saw Juliet kill Nicholas!",
+    buttons: [["continue", "next(scenario.arrestWrong1)"]],
+  },
+   arrestWrong1: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "We're bringing Juliet in straight away. Unlucky Detective but thanks for all your help!",
+    buttons: [["NEXT", "next(scenario.last)"]],
+  },
+   arrestRight: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "Give it up Juliet, we've just had an eyewitness come forward saying they saw you do it!",
+    buttons: [["continue", "next(scenario.arrestRight1)"]],
+  },
+   arrestRight1: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "Great job Detective! Looks like Juliet was fed up of Nicholas gambling and flirting with his employees!",
+    buttons: [["continue", "next(scenario.arrestRight2)"]],
+  },
+   arrestRight2: {
+	body: "5522.jpg",
+	image: "officer.svg",
+    text: "Thanks for all your help! Now you can go back to enjoying your holiday!",
+	buttons: [["NEXT", "next(scenario.last)"]],
+  },
+  last: {
+	body: "5522.jpg",
+    text: "Thank you for playing Beach Body! Please hit restart in the left corner to play again!",
+  },
+};
+
+//this is the code that starts the game
+
+startGame()
+
+
+</script>
+

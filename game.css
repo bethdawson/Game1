@@ -1,0 +1,176 @@
+body {
+ 
+  background-image: url('5522.jpg');
+  font-size: 1.6em;
+  margin-left: 30%;
+  margin-right:30%;
+   min-height: 100%;
+  background-repeat: no-repeat;
+  position: fixed;
+  background-size: 1280px;
+}
+#text{
+	color: white;
+	text-align:center;
+    background: rgba(3, 172, 240, 0.7);
+}
+
+input {
+  width: 100%;
+  height: 30px;
+  text-align:center;
+  font-size: 20px;
+  opacity: 0.4;
+ margin-top:15px;
+}
+
+#buttonBox {
+  text-align:center;
+  margin-right:60px;
+
+}
+
+button{
+  margin-left: 10px;
+  margin-top: 15px;
+  height: 90px;
+  font-size: 14px;
+  background-color: #f1f5ce;
+  cursor: pointer;
+  width: 150px;
+  vertical-align: top;
+   
+  
+}
+#images{
+	width: 700px;
+}
+
+
+.fire {
+
+	width: 80%;
+	max-width: 1000px;
+	height: 200px;
+	background-size: 100px 200px;
+	font-family: 'Akronim';
+	overflow: hidden;
+    text-align: center;
+	
+
+}
+.fire:before {
+	content: '';
+	display: inline-block;
+
+	vertical-align: middle;
+}
+
+.Blazing {
+	display: inline-block;
+	margin: 0;
+    color: yellow;
+    font-size: 80px;
+	line-height: 50px;
+	min-width: 50px;
+	outline: none;
+	text-shadow:
+        0 3px 20px red,
+        0 0 20px red,
+		0 0 10px orange,
+		4px -5px 6px yellow,
+		-4px -10px 10px yellow,
+		0 -10px 30px yellow;
+	animation: 2s Blazing infinite alternate linear;
+}
+
+@keyframes Blazing {
+	0%   { text-shadow: 0 3px 20px red, 0 0 20px red,
+		0 0 10px orange,
+		0 0 0 yellow,
+		0 0 5px yellow,
+		-2px -5px 5px yellow,
+		4px -10px 10px yellow; }
+	25%   { text-shadow: 0 3px 20px red, 0 0 30px red,
+		0 0 20px orange,
+		0 0 5px yellow,
+		-2px -5px 5px yellow,
+		3px -10px 10px yellow,
+		-4px -15px 20px yellow; }
+	50%   { text-shadow: 0 3px 20px red, 0 0 20px red,
+		0 -5px 10px orange,
+		-2px -5px 5px yellow,
+		3px -10px 10px yellow,
+		-4px -15px 20px yellow,
+		2px -20px 30px rgba(255,255,0,0.5); }
+	75%   { text-shadow: 0 3px 20px red, 0 0 20px red,
+		0 -5px 10px orange,
+		3px -5px 5px yellow,
+		-4px -10px 10px yellow,
+		2px -20px 30px rgba(255,255,0,0.5),
+		0px -25px 40px rgba(255,255,0,0)}
+	100%   { text-shadow: 0 3px 20px red, 0 0 20px red,
+		0 0 10px orange,
+		0 0 0 yellow,
+		0 0 5px yellow,
+		-2px -5px 5px yellow,
+		4px -10px 10px yellow; }
+}
+/* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  	position: fixed;
+	left: 10px; 
+	top: 30px;
+	width: 70px;
+    height: 30px;
+    background-color: #42a7f5;
+    border-radius: 5px;
+	text-align: center;
+	font-size: 20px;
+	color: white;
+  
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+visibility: hidden;
+  width: 230px;
+  background-color: #73bcf5;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: fixed;
+  left: 5px; 
+  top: 70px; 
+  height: 255px;"
+ 
+
+}
+
+.popup .show {
+  visibility: visible;
+}
+#restart{
+	  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  	position: fixed;
+	left: 90px; 
+	top: 30px;
+	width: 70px;
+    height: 30px;
+    background-color: #42a7f5;
+    border-radius: 5px;
+	text-align: center;
+	font-size: 20px;
+	text-decoration: none;
+  
+}
+
+
+
+
+
