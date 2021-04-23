@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Beach</title>
+	<meta name="viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="beach1.css">
+	<link rel="icon" type="image/png" href="favicon.png"> <!-- favicon for tab-->
+</head>
+<body>
+	<!--back button -->
+	<div id="buttonboxback"><a href="game2.html">Finished Search</a></div>
+	
+	<!--theme sound for beach, sound of waves-->
+	<audio controls loop hidden id="music">
+	<source src="waves.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+	</audio>
+	<!--buttons and pictures-->
+	<img src="play.png" style = "width:25px; height:25px; position:fixed; right:40px; bottom:25px;" onclick="play()('theme.mp3')">
+	<img src="pause.png" style = "width:25px; height:21px; position:fixed; right:10px; bottom:26px;" onclick="pause()('theme.mp3')">
+
+	<!--sounds for clues, positive and negative -->
+	<audio controls autoplay hidden id="correct"><source src="found.mp3" type="audio/mpeg"></audio>
+	<audio controls autoplay hidden id="wrong"><source src="wrong.mp3" type="audio/mpeg"></audio>
+	
+	<!-- images to make up background-->
+	<img src="chair.png" style="position:fixed; left:5px; bottom:0px; width:300px; height:300px; border:none;">
+	<img src="sign.png" style="position:fixed; right:30px; bottom:90px; width:200px; height:275px; border:none;">
+	
+	<!-- Surfer clue and Information -->
+	<div class="surfer" onclick="surferFunction(); playNegative()">
+	<img src="surf.png" style="position:fixed; right:400px; bottom:250px; width:100px; height:150px; border:none;">
+	<span class="surfertext" id="mySurfer">ITEM FOUND: SURFER </br> I wonder if he knows any information on Nicholas? Probably not...</span>
+	</div>
+	
+	
+	<!-- Flip Flop clue and Information -->
+	<div class="flipflops" onclick="flipflopFunction(); playNegative()">
+	<img src="flip.png" style="position:fixed; left:60px; bottom:0px; width:70px; height:80px; border:none;">
+	<span class="flipfloptext" id="myFlipflop">ITEM FOUND: FLIP FLOPS </br> It's just someones flip flops. Quick put them down before the owner catches you!</span>
+	</div>
+	
+	<!-- Necklace Clue and Information -->
+	<div class="popup" onclick="myFunction(); playPositive()"> 
+	<img src="neck.png" style="position:fixed; right:50px; bottom:40px; width:60px; height:80px; border:none;" >
+	<span class="popuptext" id="myPopup">ITEM FOUND: SILVER NECKLACE </br> Looks like someone has lost a necklace. I wonder who this belongs to?</span>
+	</div>
+	
+	
+</body>
+	
+<script>
+// FUNCTIONS FOR ALL THE CLUE POPUPS
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+
+function flipflopFunction() {
+  var flipflops = document.getElementById("myFlipflop");
+  flipflops.classList.toggle("show");
+}
+
+function surferFunction() {
+  var surfer = document.getElementById("mySurfer");
+  surfer.classList.toggle("show");
+}
+
+
+//FUNCTION TO PLAY SOUND EFFECTS
+var myCorrectMusic= document.getElementById("correct");
+function playPositive() {
+    myCorrectMusic.play();
+}
+var myWrongMusic= document.getElementById("wrong");
+function playNegative() {
+    myWrongMusic.play();
+}
+
+//FUNCTION TO PLAY MUSIC AND BUTTONS
+var myMusic= document.getElementById("music");
+function play() {
+myMusic.play();
+}
+
+function pause() {
+myMusic.pause();
+}
+</script>
+  
+	
+</html>
